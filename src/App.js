@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Formulario from "./components/Formulario";
+import Header from "./components/Header";
+import Mensaje from "./components/Mensaje";
+import Resultado from "./components/Resultado";
+import Spinner from "./components/Spinner";
 
-function App() {
+const App = () => {
+  const [cantidad, setCantidad] = useState(0);
+  const [plazo, setPlazo] = useState('');
+  const [total, setTotal] = useState(0);
+  const [cargando, setCargando] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header titulo="cotizador de prestamos" />
+      <div className="container">
+        <Formulario
+          cantidad={cantidad}
+          plazo={plazo}
+          setCantidad = {setCantidad}
+          setPlazo = {setPlazo}
+          setTotal = { setTotal }
+          setCargando = {setCargando}
+        />
+      <div className="mensajes">
+        {
+          (cargando) ? <Spinner />:
+                    (total === 0) ? <Mensaje />:
+                                  <Resultado 
+                                    total = { total }
+                                    plazo = { plazo }
+                                    cantidad = { cantidad }
+                                  />
+
+        }
+      </div>
+      </div>
+         
+    </>
   );
-}
+};
 
 export default App;
